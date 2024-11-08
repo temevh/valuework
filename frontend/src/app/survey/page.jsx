@@ -1,11 +1,13 @@
 "use client";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const router = useRouter();
 
   const company = "Acme Corp";
 
@@ -19,6 +21,27 @@ export default function Home() {
     setAnswers([...answers, answer]);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
+
+  const submitPress = () => {
+    router.push("/results");
+  };
+
+  if (currentQuestionIndex >= questions.length) {
+    return (
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        <p className="text-2xl text-white font-bold">
+          Thank you for your feedback!
+        </p>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => submitPress()}
+        >
+          Check results
+        </Button>
+      </div>
+    );
+  }
 
   const fetchData = async () => {
     try {
