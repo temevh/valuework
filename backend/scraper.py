@@ -5,6 +5,10 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 import torch
+from pymongo.mongo_client import MongoClient
+from datetime import datetime, timedelta
+
+
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 
@@ -90,17 +94,70 @@ def process_urls(search_term):
         content = get_page_content(url)
         if content:
            
-            
-            #print(f'the summary {summary}')
             sentiment = analyze_sentiment(content)
             #print(f'the sentiment {sentiment}')
+            
             data.append({"url": url,
                             "sentiment": sentiment["label"],
                             "sentiment_score": sentiment['score']})
         x = x+1
-    return pd.DataFrame(data)
+    
+    
+    positive_count = 0
+    negative_count = 0
+    
+    for item in data:
+        if item['sentiment'] == 'POSITIVE':
+            positive_count += 1
+        elif item['sentiment'] == 'NEGATIVE':
+            negative_count += 1
+
+    if positive_count > negative_count:
+        return 'positivie'
+    elif positive_count < negative_count:
+        return 'negative'
+    else:
+        return 'neutral'
+
+
+
+    
 # Check the response status and print the result or error
 
-print(process_urls('Nokia'))
+
+DB_URI="mongodb+srv://temehama:CTroHNLVR4cVSA30@cluster0.kzrxl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DB_NAME="templatedb"
+
+client = MongoClient(DB_URI)
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+
+
+DB = client[DB_NAME]
+collections = DB['companies']
+
+companies = collections.find()
+
+
+for company in companies:
+    try:
+        # Get simple string sentiment
+        sentiment = process_urls(company['name'])  # Returns 'positive' or 'negative'
+        
+        # Update document with the sentiment string
+        collections.update_one(
+            {"_id": company['_id']},
+            {"$set": {"perception": sentiment}}
+        )
+        
+        print(f"Updated {company['name']}: {sentiment}")
+        
+    except Exception as e:
+        print(f"Error with {company['name']}: {str(e)}")
+
 
 
