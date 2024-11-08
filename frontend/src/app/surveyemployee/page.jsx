@@ -15,7 +15,7 @@ export default function Home() {
       const response = await fetch("http://localhost:5000/api/getquestions");
       const result = await response.json();
       const formattedQuestions = result.map((q) => ({
-        question: q.title,
+        question: q.q_e,
         answers: q.options,
       }));
       setQuestions(formattedQuestions);
