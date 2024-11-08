@@ -38,7 +38,19 @@ app.use(express.json());
 
 app.get("/api/getquestions", async (req, res) => {
   try {
-    console.log("got request");
+    console.log("got getquestions request");
+    const data = await collection.find({}).toArray(); // Convert cursor to array
+    console.log(data)
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while retrieving data" });
+  }
+});
+
+app.get("/api/getcompanies", async (req, res) => {
+  try {
+    console.log("got getquestions request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
     console.log(data)
     res.status(200).json(data);

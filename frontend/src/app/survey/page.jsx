@@ -25,24 +25,6 @@ export default function Home() {
     }
   };
 
-  const postData = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          randNum: Math.floor(Math.random() * 100),
-        }),
-      });
-      const result = await response.json();
-      console.log("Data posted:", result);
-    } catch (error) {
-      console.error("Error posting data:", error);
-    }
-  };
-
   useEffect(() => {
     fetchQuestions();
   }, []);
@@ -60,13 +42,17 @@ export default function Home() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        Loading...
+      </div>
+    );
   }
 
   if (currentQuestionIndex >= questions.length) {
     return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <Button variant="contained" color="primary" onClick={submitPress}>
+        <Button variant="contained" color="secondary" onClick={submitPress}>
           Check results
         </Button>
       </div>
@@ -75,7 +61,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-xl text-white">
+      <p className="text-3xl text-white">
         {questions[currentQuestionIndex].question}
       </p>
       <div className="flex space-x-4">
@@ -83,7 +69,7 @@ export default function Home() {
           <button
             key={index}
             onClick={() => handleAnswer(option)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300"
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
           >
             {option}
           </button>
