@@ -36,9 +36,11 @@ const collection = database.collection(process.env.DB_COLLECTION);
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/get", async (req, res) => {
+app.get("/api/getquestions", async (req, res) => {
   try {
+    console.log("got request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
+    console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
