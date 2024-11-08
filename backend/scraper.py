@@ -37,21 +37,6 @@ def get_page_content(url):
         return " ".join(paragraphs)
     return None
 
-def summarize_content(content):
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=0 if device.type == "mps" else -1)
-    summaries = []
-    
-    for chunk in split_text(content, max_length=512):
-        try:
-            if (len(chunk) < 80):
-                continue
-            summary = summarizer(chunk, max_length=80, min_length=40, do_sample=False)[0]['summary_text']
-            summaries.append(summary)
-        except Exception as e:
-            print(f"Error summarizing chunk: {str(e)}")
-            continue
-    
-    return " ".join(summaries)
 
 
 def analyze_sentiment(content):
@@ -105,12 +90,11 @@ def process_urls(search_term):
         content = get_page_content(url)
         if content:
            
-            summary = summarize_content(content)
+            
             #print(f'the summary {summary}')
             sentiment = analyze_sentiment(content)
             #print(f'the sentiment {sentiment}')
             data.append({"url": url,
-                          "summary": summary,
                             "sentiment": sentiment["label"],
                             "sentiment_score": sentiment['score']})
         x = x+1
