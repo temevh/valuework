@@ -1,36 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# valuemap
 
-## Getting Started
+Looking for a work is a job in itself, but it should not be.
 
-First, run the development server:
+Valuemap matches job seekers with companies based on shared values, believes and needs. Employees of a company can anonymously answer questions regarding the company, which are saved and then used to recommend and rank companies to people looking for a company where they actually fit in.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Valuemap aims to be a minimalistic, easy and quick to use service, that can be used without creating profiles or subscribing to spammy newsletters.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After answering a randomized selection of questions the job seeker is presented with companies, ranked by the how much their values match. Valuemap displays gives an easily digestable summary of the company with recent trends related to the company, with the help of deep learning and large language models.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Using valuemap offers benefits for all parties involved. Job seekers find a job which they enjoy, thus leading to a happier work environment and less sick leaves.
