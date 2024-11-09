@@ -23,7 +23,8 @@ export default function Home() {
 
       const result = await response.json();
       console.log(result);
-      setCompanies(result);
+      setCompanies(result.slice(0, 5));
+
       console.log(answers);
     } catch (error) {
       console.error("Error posting answer:", error);
@@ -47,11 +48,12 @@ export default function Home() {
   }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid items-center justify-items-center min-h-screen p-10 font-[family-name:var(--font-geist-sans)]">
       <p className="text-2xl text-white font-bold">Best matches</p>
       {companies.map((company, index) => (
         <ResultCard company={company} index={index} key={company._id} />
       ))}
+      <p className="pt-6 text-gray-300 italic">Show more results</p>
     </div>
   );
 }
