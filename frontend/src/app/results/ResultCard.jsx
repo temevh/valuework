@@ -17,9 +17,9 @@ const ResultCard = ({ company, index }) => {
     <div
       key={company.name}
       onClick={openPopUp}
-      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-green-600 transition duration-300 cursor-pointer"
+      className="relative flex flex-row items-center gap-4 p-4 bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 cursor-pointer"
     >
-      <p className="text-xl text-gray-800 font-semibold flex-grow">
+      <p className="text-xl text-white font-semibold flex-grow">
         {index + 1}. {company.name}
       </p>
       {isPopUpVisible && <PopUp company={company} onClose={closePopUp} />}
