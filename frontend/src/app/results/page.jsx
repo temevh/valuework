@@ -56,8 +56,8 @@ export default function Home() {
   }
 
   return (
-    <div className="grid items-center justify-items-center min-h-screen p-10 font-[family-name:var(--font-geist-sans)] bg-listbackground">
-      <p className="text-2xl text-black bold font-bold">Best matches</p>
+    <div className="grid bg-gray-900 items-center justify-items-center min-h-screen p-10 font-[family-name:var(--font-geist-sans)]">
+      <p className="text-2xl text-white bold font-bold">Best matches</p>
       {companies.map((company, index) => (
         <ResultCard company={company} index={index} key={company.name} />
       ))}

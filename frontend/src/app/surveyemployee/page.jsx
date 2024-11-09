@@ -77,23 +77,26 @@ export default function Home() {
   }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] bg-listbackground items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-3xl text-white text-bold">UMBRELLA CORP</p>
-      <p className="text-3xl text-white">
-        {questions[currentQuestionIndex].question}
-      </p>
-      <div className="flex space-x-4">
-        {questions[currentQuestionIndex].answers.map((option, index) => (
-          <button
-            key={index}
-            onClick={() =>
-              handleAnswer(questions[currentQuestionIndex], index + 1)
-            }
-            className="px-4 py-2 bg-listitem text-black rounded hover:bg-green-600 transition duration-300"
-          >
-            {option}
-          </button>
-        ))}
+    <div className="grid bg-gray-900 items-center justify-items-center min-h-screen p-8 gap-4 sm:p-48 font-[family-name:var(--font-geist-sans)]">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-2">
+        <p className="text-3xl text-white text-center">
+          {questions[currentQuestionIndex].question}
+        </p>
+      </div>
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-2">
+        <div className="flex space-x-4">
+          {questions[currentQuestionIndex].answers.map((option, index) => (
+            <button
+              key={index}
+              onClick={() =>
+                handleAnswer(questions[currentQuestionIndex], index + 1)
+              }
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 font-bold transition duration-300"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
