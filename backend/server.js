@@ -132,13 +132,6 @@ app.post("/api/postanswer", async (req, res) => {
   }
 });
 
-app.get("api/getresuls", async (req, res) => {
-  //Hakee tietokannnasta firmat
-  //Vertaa firmojen vastauksia ja käyttäjän vastauksia
-  //Järjestää top 5?
-
-
-});
 
 app.listen(port, () => {
   console.log("server running on http://localhost:" + port);
