@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 import PopUp from "./PopUp";
 
 const ResultCard = ({ company, index }) => {
@@ -10,24 +8,20 @@ const ResultCard = ({ company, index }) => {
     setIsPopUpVisible(true);
   };
 
-  const closePopUp = () => {
+  const closePopUp = (event) => {
+    event.stopPropagation();
     setIsPopUpVisible(false);
   };
 
   return (
     <div
       key={company.name}
-      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-green-700 transition duration-300"
+      onClick={openPopUp}
+      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-green-600 transition duration-300 cursor-pointer"
     >
       <p className="text-xl text-gray-800 font-semibold flex-grow">
         {index + 1}. {company.name}
       </p>
-      <button
-        onClick={openPopUp}
-        className="text-white hover:text-gray-400 transition duration-300"
-      >
-        <FontAwesomeIcon icon={faInfoCircle} size="lg" />
-      </button>
       {isPopUpVisible && <PopUp company={company} onClose={closePopUp} />}
     </div>
   );

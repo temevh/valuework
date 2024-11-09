@@ -77,7 +77,7 @@ export default function Home() {
   }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[20px_1fr_20px] bg-listbackground items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <p className="text-3xl text-white text-bold">UMBRELLA CORP</p>
       <p className="text-3xl text-white">
         {questions[currentQuestionIndex].question}
@@ -89,7 +89,7 @@ export default function Home() {
             onClick={() =>
               handleAnswer(questions[currentQuestionIndex], index + 1)
             }
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
+            className="px-4 py-2 bg-listitem text-black rounded hover:bg-green-600 transition duration-300"
           >
             {option}
           </button>
