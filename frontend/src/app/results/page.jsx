@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="grid items-center justify-items-center min-h-screen p-10 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-2xl text-white font-bold">Best matches</p>
+      <p className="text-2xl text-gray-600 italic font-bold">Best matches</p>
       {companies.map((company, index) => (
         <ResultCard company={company} index={index} key={company._id} />
       ))}

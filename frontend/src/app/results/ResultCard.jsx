@@ -26,7 +26,7 @@ const ResultCard = ({ company, index }) => {
         onClick={openPopUp}
         className="text-white hover:text-gray-400 transition duration-300"
       >
-        <FontAwesomeIcon icon={faInfoCircle} size="lg" />
+        <FontAwesomeIcon icon={faInfoCircle} size="xl" />
       </button>
       {isPopUpVisible && <PopUp company={company} onClose={closePopUp} />}
     </div>
