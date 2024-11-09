@@ -17,7 +17,7 @@ const ResultCard = ({ company, index }) => {
   return (
     <div
       key={company.name}
-      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-listhover transition duration-300"
+      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-green-700 transition duration-300"
     >
       <p className="text-xl text-gray-800 font-semibold flex-grow">
         {index + 1}. {company.name}
