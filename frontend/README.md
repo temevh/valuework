@@ -9,3 +9,10 @@ Valuemap aims to be a minimalistic, easy and quick to use service, that can be u
 After answering a randomized selection of questions the job seeker is presented with companies, ranked by the how much their values match. Valuemap displays gives an easily digestable summary of the company with recent trends related to the company, with the help of deep learning and large language models.
 
 Using valuemap offers benefits for all parties involved. Job seekers find a job which they enjoy, thus leading to a happier work environment and less sick leaves.
+
+## To run the code
+
+After cloning the repository, install the needed dependencies
+Set DB_URI and DB_NAME in the .env for the backend
+The frontend and backend are run separately, with npm run dev (frontend) and nodemon server.js (backend)
+Head to /surveyseeker or /surveyemployee to get started
