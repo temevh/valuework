@@ -10,10 +10,18 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  const company = "Umbrella corp";
+
   const fetchQuestions = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/getquestions");
+      console.log("Fetching questions for company:", company);
+      const response = await fetch(
+        `http://localhost:5000/api/getquestionsemp?company=${encodeURIComponent(
+          company
+        )}`
+      );
       const result = await response.json();
+      console.log(result);
       const formattedQuestions = result.map((q) => ({
         question: q.q_e,
         answers: q.options,
