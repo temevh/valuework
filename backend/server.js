@@ -36,9 +36,37 @@ const collection = database.collection(process.env.DB_COLLECTION);
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/get", async (req, res) => {
+app.get("/api/getquestions", async (req, res) => {
   try {
+    console.log("got getquestions request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
+    console.log(data)
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while retrieving data" });
+  }
+});
+
+app.get("/api/getquestionsemp", async (req, res) => {
+  try {
+    const company = req.query.company; 
+    console.log("got getquestionsemp request for company: " + company);
+    
+    const data = await collection.find({ company: company }).toArray();
+    
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while retrieving data" });
+  }
+});
+
+app.get("/api/getcompanies", async (req, res) => {
+  try {
+    console.log("got getquestions request");
+    const data = await collection.find({}).toArray(); // Convert cursor to array
+    console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
