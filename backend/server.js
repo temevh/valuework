@@ -83,6 +83,21 @@ app.get("/api/getcompanies", async (req, res) => {
   }
 });
 
+app.get("/api/getsentiment", async (req, res) => {
+  const company = req.query.company;
+  console.log("get sentiment request for", company);
+  try {
+    const collection = database.collection("llm-example");
+    const data = await collection.findOne({ name: company });
+    console.log(data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while retrieving data" });
+  }
+});
+
+
 app.post("/api/postanswer", async (req, res) => {
   const companyName = "Umbrella Corp";
   try {
