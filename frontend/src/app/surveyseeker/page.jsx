@@ -62,18 +62,17 @@ export default function Home() {
       </div>
     );
   }
-
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-3xl text-white">
+    <div className="grid grid-rows-[20px_1fr_20px] bg-listbackground items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <p className="text-3xl text-white text-center">
         {questions[currentQuestionIndex].question}
       </p>
-      <div className="flex space-x-4">
+      <div className="flex flex-row flex-wrap items-center gap-4">
         {questions[currentQuestionIndex].answers.map((option, index) => (
           <button
             key={index}
             onClick={() => handleAnswer(index)}
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
+            className="px-4 py-2 bg-listitem text-black rounded hover:bg- transition duration-300"
           >
             {option}
           </button>
