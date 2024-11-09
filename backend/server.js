@@ -72,7 +72,8 @@ app.get("/api/getquestions", async (req, res) => {
 
 app.get("/api/getcompanies", async (req, res) => {
   try {
-    console.log("got getquestions request");
+    const collection = database.collection("companies");
+    console.log("got getcompanies request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
     //console.log(data)
     res.status(200).json(data);
