@@ -1,30 +1,21 @@
 "use client";
-import Button from "@mui/material/Button";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  const company = "Umbrella corp";
 
   const fetchQuestions = async () => {
     try {
-      console.log("Fetching questions for company:", company);
       const response = await fetch(
-        `http://localhost:5000/api/getquestionsemp?company=${encodeURIComponent(
-          company
-        )}`
+        `http://localhost:5000/api/getquestions?employee=true`
       );
       const result = await response.json();
-      console.log(result);
-      const formattedQuestions = result.map((q) => ({
-        question: q.q_e,
-        answers: q.options,
+      const formattedQuestions = result.map((item) => ({
+        id: item.qId,
+        question: item.q_e,
+        answers: item.a_e,
       }));
       setQuestions(formattedQuestions);
       setLoading(false);
@@ -37,16 +28,35 @@ export default function Home() {
     fetchQuestions();
   }, []);
 
-  const handleAnswer = (answer) => {
-    setAnswers([...answers, answer]);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-  };
+  const handleAnswer = async (question, answer) => {
+    console.log("Question:", question);
+    console.log("Answer Index:", answer);
 
-  const submitPress = () => {
-    const queryString = answers
-      .map((answer, index) => `q${index + 1}=${answer}`)
-      .join("&");
-    router.push(`/results?${queryString}`);
+    try {
+      const response = await fetch("http://localhost:5000/api/postanswer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question, answer }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to post answer");
+      }
+
+      const result = await response.json();
+      console.log("Post result:", result);
+
+      if (currentQuestionIndex + 1 < questions.length) {
+        console.log("index", currentQuestionIndex);
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error posting answer:", error);
+    }
   };
 
   if (loading) {
@@ -57,19 +67,18 @@ export default function Home() {
     );
   }
 
-  if (currentQuestionIndex >= questions.length) {
+  if (currentQuestionIndex == 8) {
+    console.log("Finished");
     return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <Button variant="contained" color="secondary" onClick={submitPress}>
-          Check results
-        </Button>
+        <p className="text-2xl text-white">Thank you for your contribution!</p>
       </div>
     );
   }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-3xl text-white text-bold">EMPLOYEE FOR EMRE OY</p>
+      <p className="text-3xl text-white text-bold">UMBRELLA CORP</p>
       <p className="text-3xl text-white">
         {questions[currentQuestionIndex].question}
       </p>
@@ -77,7 +86,9 @@ export default function Home() {
         {questions[currentQuestionIndex].answers.map((option, index) => (
           <button
             key={index}
-            onClick={() => handleAnswer(option)}
+            onClick={() =>
+              handleAnswer(questions[currentQuestionIndex], index + 1)
+            }
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
           >
             {option}

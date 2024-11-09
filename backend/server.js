@@ -40,7 +40,7 @@ app.get("/api/getquestions", async (req, res) => {
   try {
     console.log("got getquestions request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
-    console.log(data)
+    //console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -48,14 +48,22 @@ app.get("/api/getquestions", async (req, res) => {
   }
 });
 
-app.get("/api/getquestionsemp", async (req, res) => {
+app.get("/api/getquestions", async (req, res) => {
   try {
-    const company = req.query.company; 
-    console.log("got getquestionsemp request for company: " + company);
-    
-    const data = await collection.find({ company: company }).toArray();
-    
-    res.status(200).json(data);
+    const employee = req.query.employee === 'true';
+    const collection = database.collection("questions");
+
+    if (employee) {
+      const data = await collection.find({}).toArray();
+      const formattedQuestions = data.map((item) => ({
+        question: item.q_e,
+        answers: item.a_e,
+      }));
+      //console.log(formattedQuestions)
+      res.status(200).json(formattedQuestions);
+    } else {
+      res.status(400).json({ error: "Invalid request" });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "An error occurred while retrieving data" });
@@ -66,7 +74,7 @@ app.get("/api/getcompanies", async (req, res) => {
   try {
     console.log("got getquestions request");
     const data = await collection.find({}).toArray(); // Convert cursor to array
-    console.log(data)
+    //console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -74,17 +82,56 @@ app.get("/api/getcompanies", async (req, res) => {
   }
 });
 
-app.post("/api/post", async (req, res) => {
+app.post("/api/postanswer", async (req, res) => {
+  const companyName = "Umbrella Corp";
   try {
     const data = req.body;
+    id = data.question.id;
+    answerIndex = data.answer;
 
-    const result = await collection.insertOne(data);
+    console.log("data", data);
+    console.log("id", data.question.id);
+    console.log("answerIndex", data.answer);
 
-    res.status(201).json({ message: "Added data succesfully", result });
+    const companyCollection = database.collection("companies");
+
+    const company = await companyCollection.findOne({ name: companyName });
+
+    if (company) {
+      console.log("found company");
+      if (company.questions && company.questions[id]) {
+        const updatedQuestion = {
+          ...company.questions[id],
+          totalAnswerSum: company.questions[id].totalAnswerSum + answerIndex,
+          totalResponses: company.questions[id].totalResponses + 1,
+        };
+
+        await companyCollection.updateOne(
+          { name: companyName },
+          { $set: { [`questions.${id}`]: updatedQuestion } }
+        );
+      } else {
+        const newQuestion = {
+          totalAnswerSum: answerIndex,
+          totalResponses: 1,
+        };
+
+        await companyCollection.updateOne(
+          { name: companyName },
+          { $set: { [`questions.${id}`]: newQuestion } }
+        );
+      }
+
+      res.status(201).json({ message: "Added data successfully" });
+    } else {
+      res.status(404).json({ error: "Company not found" });
+    }
   } catch (err) {
-    res.status(500).json({ error: "An error occured while retrieving data" });
+    console.error(err);
+    res.status(500).json({ error: "An error occurred while posting data" });
   }
 });
+
 
 app.listen(port, () => {
   console.log("server running on http://localhost:" + port);
