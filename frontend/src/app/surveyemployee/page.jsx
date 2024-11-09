@@ -1,14 +1,10 @@
 "use client";
-import Button from "@mui/material/Button";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   const fetchQuestions = async () => {
     try {
@@ -17,7 +13,7 @@ export default function Home() {
       );
       const result = await response.json();
       const formattedQuestions = result.map((item) => ({
-        id: item._id,
+        id: item.qId,
         question: item.q_e,
         answers: item.a_e,
       }));
@@ -32,16 +28,25 @@ export default function Home() {
     fetchQuestions();
   }, []);
 
-  const handleAnswer = (answer) => {
-    setAnswers([...answers, answer]);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-  };
+  const handleAnswer = async (question, answer) => {
+    console.log("Question:", question);
+    console.log("Answer:", answer);
 
-  const submitPress = () => {
-    const queryString = answers
-      .map((answer, index) => `q${index + 1}=${answer}`)
-      .join("&");
-    router.push(`/results?${queryString}`);
+    try {
+      const response = await fetch("http://localhost:5000/api/postanswer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question, answer }),
+      });
+
+      console.log("Response:", response);
+
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } catch (error) {
+      console.error("Error posting answer:", error);
+    }
   };
 
   if (loading) {
@@ -55,9 +60,7 @@ export default function Home() {
   if (currentQuestionIndex >= questions.length) {
     return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <Button variant="contained" color="secondary" onClick={submitPress}>
-          Check results
-        </Button>
+        <p className="text-2xl text-white">Thank you for your contribution!</p>
       </div>
     );
   }
@@ -72,7 +75,9 @@ export default function Home() {
         {questions[currentQuestionIndex].answers.map((option, index) => (
           <button
             key={index}
-            onClick={() => handleAnswer(option)}
+            onClick={() =>
+              handleAnswer(questions[currentQuestionIndex], index + 1)
+            }
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
           >
             {option}
