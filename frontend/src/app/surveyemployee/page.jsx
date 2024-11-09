@@ -70,8 +70,10 @@ export default function Home() {
   if (currentQuestionIndex == 8) {
     console.log("Finished");
     return (
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <p className="text-2xl text-white">Thank you for your contribution!</p>
+      <div className="grid grid-rows-[20px_1fr_20px] bg-gray-900 items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        <p className="text-2xl text-white">
+          Thank you for your contribution! :)
+        </p>
       </div>
     );
   }
