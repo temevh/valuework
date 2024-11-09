@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import PopUp from "./PopUp";
 
 const ResultCard = ({ company, index }) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+
+  useEffect(() => {
+    console.log("ResultCard loaded with company:", company);
+  }, [company]);
 
   const openPopUp = () => {
     setIsPopUpVisible(true);
@@ -16,7 +20,7 @@ const ResultCard = ({ company, index }) => {
 
   return (
     <div
-      key={company}
+      key={company.name}
       className="relative flex flex-row items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
     >
       <p className="text-xl text-white font-semibold flex-grow">
@@ -26,7 +30,7 @@ const ResultCard = ({ company, index }) => {
         onClick={openPopUp}
         className="text-white hover:text-gray-400 transition duration-300"
       >
-        <FontAwesomeIcon icon={faInfoCircle} size="xl" />
+        <FontAwesomeIcon icon={faInfoCircle} size="lg" />
       </button>
       {isPopUpVisible && <PopUp company={company} onClose={closePopUp} />}
     </div>

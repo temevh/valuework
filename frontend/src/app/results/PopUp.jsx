@@ -1,7 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
 const PopUp = ({ company, onClose }) => {
+  useEffect(() => {
+    console.log("PopUp loaded with company:", company);
+  }, [company]);
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-start justify-center bg-black bg-opacity-50 pt-10 z-50">
       <div className="bg-listbackground p-6 rounded-lg shadow-lg max-w-2xl w-full">
