@@ -1,5 +1,6 @@
-valuemap
-Looking for a work is a job in itself, but it should not be.
+# valuemap
+
+## Looking for a work is a job in itself, but it should not be.
 
 Valuemap matches job seekers with companies based on shared values, believes and needs. Employees of a company can anonymously answer questions regarding the company, which are saved and then used to recommend and rank companies to people looking for a company where they actually fit in.
 
