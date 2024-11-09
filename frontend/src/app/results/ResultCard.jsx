@@ -6,10 +6,6 @@ import PopUp from "./PopUp";
 const ResultCard = ({ company, index }) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
-  useEffect(() => {
-    console.log("ResultCard loaded with company:", company);
-  }, [company]);
-
   const openPopUp = () => {
     setIsPopUpVisible(true);
   };
@@ -21,9 +17,9 @@ const ResultCard = ({ company, index }) => {
   return (
     <div
       key={company.name}
-      className="relative flex flex-row items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
+      className="relative flex flex-row items-center gap-4 p-4 bg-listitem rounded-lg shadow-md hover:bg-listhover transition duration-300"
     >
-      <p className="text-xl text-white font-semibold flex-grow">
+      <p className="text-xl text-gray-800 font-semibold flex-grow">
         {index + 1}. {company.name}
       </p>
       <button
