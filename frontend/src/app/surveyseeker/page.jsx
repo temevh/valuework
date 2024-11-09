@@ -32,8 +32,9 @@ export default function Home() {
     fetchQuestions();
   }, []);
 
-  const handleAnswer = (answer) => {
-    setAnswers([...answers, answer]);
+  const handleAnswer = (index) => {
+    console.log(index + 1);
+    setAnswers([...answers, index + 1]);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
@@ -71,7 +72,7 @@ export default function Home() {
         {questions[currentQuestionIndex].answers.map((option, index) => (
           <button
             key={index}
-            onClick={() => handleAnswer(option)}
+            onClick={() => handleAnswer(index)}
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 transition duration-300"
           >
             {option}
