@@ -38,31 +38,24 @@ app.use(express.json());
 
 app.get("/api/getquestions", async (req, res) => {
   try {
-    console.log("got getquestions request");
-    const data = await collection.find({}).toArray(); // Convert cursor to array
-    //console.log(data)
-    res.status(200).json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "An error occurred while retrieving data" });
-  }
-});
-
-app.get("/api/getquestions", async (req, res) => {
-  try {
     const employee = req.query.employee === 'true';
     const collection = database.collection("questions");
 
+    let data;
     if (employee) {
-      const data = await collection.find({}).toArray();
+      data = await collection.find({}).toArray();
       const formattedQuestions = data.map((item) => ({
         question: item.q_e,
         answers: item.a_e,
       }));
-      //console.log(formattedQuestions)
       res.status(200).json(formattedQuestions);
     } else {
-      res.status(400).json({ error: "Invalid request" });
+      data = await collection.find({}).toArray();
+      const formattedQuestions = data.map((item) => ({
+        question: item.q_s,
+        answers: item.a_s,
+      }));
+      res.status(200).json(formattedQuestions);
     }
   } catch (err) {
     console.error(err);
