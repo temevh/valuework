@@ -12,11 +12,14 @@ export default function Home() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/getquestions");
+      const response = await fetch(
+        "http://localhost:5000/api/getquestions?employee=false"
+      );
       const result = await response.json();
-      const formattedQuestions = result.map((q) => ({
-        question: q.q_s,
-        answers: q.options,
+      const formattedQuestions = result.map((item) => ({
+        id: item.qId,
+        question: item.q_s,
+        answers: item.a_s,
       }));
       setQuestions(formattedQuestions);
       setLoading(false);
