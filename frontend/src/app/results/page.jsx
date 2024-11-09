@@ -53,7 +53,9 @@ export default function Home() {
       {companies.map((company, index) => (
         <ResultCard company={company} index={index} key={company._id} />
       ))}
-      <p className="pt-6 text-gray-300 italic">Show more results</p>
+      <button className="mt-6 px-4 py-2 bg-gray-600 text-gray-200 rounded hover:bg-gray-700 transition duration-300">
+        <p className="text-xs">Show more results</p>
+      </button>
     </div>
   );
 }
