@@ -30,7 +30,7 @@ export default function Home() {
 
   const handleAnswer = async (question, answer) => {
     console.log("Question:", question);
-    console.log("Answer:", answer);
+    console.log("Answer Index:", answer);
 
     try {
       const response = await fetch("http://localhost:5000/api/postanswer", {
@@ -41,9 +41,19 @@ export default function Home() {
         body: JSON.stringify({ question, answer }),
       });
 
-      console.log("Response:", response);
+      if (!response.ok) {
+        throw new Error("Failed to post answer");
+      }
 
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      const result = await response.json();
+      console.log("Post result:", result);
+
+      if (currentQuestionIndex + 1 < questions.length) {
+        console.log("index", currentQuestionIndex);
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Error posting answer:", error);
     }
@@ -57,7 +67,8 @@ export default function Home() {
     );
   }
 
-  if (currentQuestionIndex >= questions.length) {
+  if (currentQuestionIndex == 7) {
+    console.log("Finished");
     return (
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <p className="text-2xl text-white">Thank you for your contribution!</p>

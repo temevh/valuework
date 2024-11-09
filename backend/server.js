@@ -99,28 +99,23 @@ app.post("/api/postanswer", async (req, res) => {
 
     if (company) {
       console.log("found company");
-      // Check if the question already exists
       if (company.questions && company.questions[id]) {
-        // Increment the existing question's totalAnswerSum and totalResponses
         const updatedQuestion = {
           ...company.questions[id],
           totalAnswerSum: company.questions[id].totalAnswerSum + answerIndex,
           totalResponses: company.questions[id].totalResponses + 1,
         };
 
-        // Update the company document
         await companyCollection.updateOne(
           { name: companyName },
           { $set: { [`questions.${id}`]: updatedQuestion } }
         );
       } else {
-        // Add the new question with initial values
         const newQuestion = {
           totalAnswerSum: answerIndex,
           totalResponses: 1,
         };
 
-        // Update the company document
         await companyCollection.updateOne(
           { name: companyName },
           { $set: { [`questions.${id}`]: newQuestion } }
@@ -135,6 +130,14 @@ app.post("/api/postanswer", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "An error occurred while posting data" });
   }
+});
+
+app.get("api/getresuls", async (req, res) => {
+  //Hakee tietokannnasta firmat
+  //Vertaa firmojen vastauksia ja käyttäjän vastauksia
+  //Järjestää top 5?
+
+
 });
 
 app.listen(port, () => {
