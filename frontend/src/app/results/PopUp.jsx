@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import SentimentData from "./SentimentData";
 
 const PopUp = ({ company, onClose }) => {
   const [sentiment, setSentiment] = useState(null);
@@ -34,25 +35,36 @@ const PopUp = ({ company, onClose }) => {
           />
           <h2 className="text-3xl font-bold text-gray-800">{company.name}</h2>
         </div>
-        <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
-          <p className="text-gray-700 mb-2 text-xl">
-            <strong>Size:</strong> {company.size}
-          </p>
-        </div>
-        <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
-          <p className="text-gray-700 mb-2 text-xl">
-            <strong>Industry:</strong> {company.industry}
-          </p>
-        </div>
-        <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
-          <p className="text-gray-700 mb-2 text-xl">
-            <strong>Locations:</strong>
-          </p>
-          {company.locations.map((location, index) => (
-            <p key={index} className="text-gray-700 text-lg">
-              {location}
-            </p>
-          ))}
+        <div className="flex">
+          <div className="w-1/2 pl-4">
+            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
+              <p className="text-gray-700 mb-2 text-xl">
+                <strong>Size:</strong> {company.size}
+              </p>
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
+              <p className="text-gray-700 mb-2 text-xl">
+                <strong>Industry:</strong> {company.industry}
+              </p>
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
+              <p className="text-gray-700 mb-2 text-xl">
+                <strong>Locations:</strong>
+              </p>
+              {company.locations.map((location, index) => (
+                <p key={index} className="text-gray-700 text-lg">
+                  {location}
+                </p>
+              ))}
+            </div>
+          </div>
+          <div className="pl-4 w-1/2 pr-4">
+            {sentiment ? (
+              <SentimentData data={sentiment} />
+            ) : (
+              <p>Loading sentiment data...</p>
+            )}
+          </div>
         </div>
         <button
           onClick={(event) => onClose(event)}
