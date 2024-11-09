@@ -1,8 +1,28 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const PopUp = ({ company, onClose }) => {
+  const [sentiment, setSentiment] = useState(null);
+
+  const fetchSentiment = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/getsentiment?company=${company.name}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch sentiment");
+      const result = await response.json();
+      console.log("Sentiment:", result);
+      setSentiment(result);
+    } catch (error) {
+      console.error("Error fetching sentiment:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSentiment();
+  }, [company]);
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-lg shadow-2xl max-w-2xl w-full transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
