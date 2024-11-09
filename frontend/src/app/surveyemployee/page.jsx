@@ -10,21 +10,16 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const company = "Umbrella corp";
-
   const fetchQuestions = async () => {
     try {
-      console.log("Fetching questions for company:", company);
       const response = await fetch(
-        `http://localhost:5000/api/getquestionsemp?company=${encodeURIComponent(
-          company
-        )}`
+        `http://localhost:5000/api/getquestions?employee=true`
       );
       const result = await response.json();
-      console.log(result);
-      const formattedQuestions = result.map((q) => ({
-        question: q.q_e,
-        answers: q.options,
+      const formattedQuestions = result.map((item) => ({
+        id: item._id,
+        question: item.q_e,
+        answers: item.a_e,
       }));
       setQuestions(formattedQuestions);
       setLoading(false);
@@ -69,7 +64,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p className="text-3xl text-white text-bold">EMPLOYEE FOR EMRE OY</p>
+      <p className="text-3xl text-white text-bold">UMBRELLA CORP</p>
       <p className="text-3xl text-white">
         {questions[currentQuestionIndex].question}
       </p>

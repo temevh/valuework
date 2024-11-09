@@ -48,14 +48,22 @@ app.get("/api/getquestions", async (req, res) => {
   }
 });
 
-app.get("/api/getquestionsemp", async (req, res) => {
+app.get("/api/getquestions", async (req, res) => {
   try {
-    const company = req.query.company; 
-    console.log("got getquestionsemp request for company: " + company);
-    
-    const data = await collection.find({ company: company }).toArray();
-    
-    res.status(200).json(data);
+    const employee = req.query.employee === 'true';
+    const collection = database.collection("questions");
+
+    if (employee) {
+      const data = await collection.find({}).toArray();
+      const formattedQuestions = data.map((item) => ({
+        question: item.q_e,
+        answers: item.a_e,
+      }));
+      console.log(formattedQuestions)
+      res.status(200).json(formattedQuestions);
+    } else {
+      res.status(400).json({ error: "Invalid request" });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "An error occurred while retrieving data" });
